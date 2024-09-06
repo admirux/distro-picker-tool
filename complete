@@ -1,0 +1,241 @@
+<div class="terminal-container">
+    <div class="terminal-header">
+        <div class="buttons">
+            <span class="circle red"></span>
+            <span class="circle yellow"></span>
+            <span class="circle green"></span>
+        </div>
+        <span class="title">Terminal - Linux Distro Picker</span>
+    </div>
+    <div class="terminal-body">
+        <p class="terminal-text">Welcome to the Admirux Linux Distro Picker!</p>
+        <p class="terminal-text">Please select your preferences:</p>
+        
+        <div class="picker-section">
+            <label class="terminal-label" for="experience">Experience Level:</label>
+            <select id="experience" class="terminal-select">
+                <option value="beginner">Beginner</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="advanced">Advanced</option>
+                <option value="expert">Expert</option>
+            </select>
+        </div>
+
+        <div class="picker-section">
+            <label class="terminal-label" for="hardware">Hardware Specifications:</label>
+            <select id="hardware" class="terminal-select">
+                <option value="low">Low-end (1-2 GB RAM, Older CPU)</option>
+                <option value="medium">Mid-range (4-8 GB RAM, Dual-Core CPU)</option>
+                <option value="high">High-end (8+ GB RAM, Quad-Core+ CPU)</option>
+                <option value="extreme">Extreme (32+ GB RAM, Latest High-end CPU)</option>
+            </select>
+        </div>
+
+        <div class="picker-section">
+            <label class="terminal-label" for="purpose">Purpose:</label>
+            <select id="purpose" class="terminal-select">
+                <option value="general">General Use</option>
+                <option value="development">Development</option>
+                <option value="hacking">Hacking/Networking</option>
+                <option value="gaming">Gaming</option>
+                <option value="server">Server</option>
+                <option value="minimal">Minimalist/Lightweight</option>
+                <option value="multimedia">Multimedia</option>
+                <option value="education">Education</option>
+                <option value="privacy">Privacy/Security</option>
+                <option value="enterprise">Enterprise/Corporate</option>
+            </select>
+        </div>
+
+        <button class="btn-pick-distro" onclick="pickDistro()">Find My Distro</button>
+
+        <div id="result-section" class="terminal-output">
+            <pre id="result"></pre>
+            <pre id="description"></pre>
+            <a id="guide-link" href="#" target="_blank" class="terminal-link"></a>
+        </div>
+    </div>
+</div>
+
+<script>
+function pickDistro() {
+    const distros = [
+        { name: 'Ubuntu', description: 'A popular and user-friendly distribution suitable for all levels.', link: 'https://ubuntu.com/', guide: 'https://ubuntu.com/tutorials' },
+        { name: 'Debian', description: 'A stable and versatile distribution known for its reliability.', link: 'https://www.debian.org/', guide: 'https://www.debian.org/doc/' },
+        { name: 'Fedora', description: 'A cutting-edge distribution known for its innovation and latest software.', link: 'https://getfedora.org/', guide: 'https://docs.fedoraproject.org/en-US/docs/' },
+        { name: 'Arch Linux', description: 'A flexible and lightweight distribution for advanced users.', link: 'https://www.archlinux.org/', guide: 'https://wiki.archlinux.org/' },
+        { name: 'Manjaro', description: 'A user-friendly distribution based on Arch Linux.', link: 'https://manjaro.org/', guide: 'https://manjaro.org/support/' },
+        { name: 'Linux Mint', description: 'A user-friendly distribution for beginners, based on Ubuntu.', link: 'https://linuxmint.com/', guide: 'https://linuxmint.com/documentation.php' },
+        { name: 'CentOS Stream', description: 'A stable, enterprise-grade distribution ideal for servers.', link: 'https://www.centos.org/', guide: 'https://docs.centos.org/en-US/' },
+        { name: 'Kali Linux', description: 'A specialized distribution for penetration testing and security auditing.', link: 'https://www.kali.org/', guide: 'https://www.kali.org/docs/' },
+        { name: 'Pop!_OS', description: 'A distribution optimized for gaming, development, and creative work.', link: 'https://pop.system76.com/', guide: 'https://support.system76.com/articles/knowledgebase/' },
+        { name: 'Zorin OS', description: 'A beginner-friendly distribution designed to look familiar to Windows users.', link: 'https://zorinos.com/', guide: 'https://zorinos.com/help/' },
+        { name: 'elementary OS', description: 'A sleek and stylish distribution designed for simplicity.', link: 'https://elementary.io/', guide: 'https://docs.elementary.io/' },
+        { name: 'openSUSE', description: 'A powerful and versatile distribution with a strong community.', link: 'https://www.opensuse.org/', guide: 'https://doc.opensuse.org/' },
+        { name: 'Red Hat Enterprise Linux', description: 'A leading enterprise distribution known for its stability.', link: 'https://www.redhat.com/', guide: 'https://access.redhat.com/documentation/en-us/' },
+        { name: 'Gentoo', description: 'A highly customizable distribution for expert users.', link: 'https://www.gentoo.org/', guide: 'https://wiki.gentoo.org/wiki/Handbook:Main_Page' },
+        { name: 'Slackware', description: 'One of the oldest distributions, known for its simplicity and stability.', link: 'http://www.slackware.com/', guide: 'http://www.slackware.com/book/' },
+        { name: 'Solus', description: 'A modern distribution designed for desktop use with a focus on simplicity.', link: 'https://getsol.us/', guide: 'https://getsol.us/articles/' },
+        { name: 'MX Linux', description: 'A midweight distribution combining a sleek desktop with stability.', link: 'https://mxlinux.org/', guide: 'https://mxlinux.org/user-manuals/' },
+        { name: 'Deepin', description: 'A beautiful and user-friendly distribution from China.', link: 'https://www.deepin.org/en/', guide: 'https://wiki.deepin.org/' },
+        { name: 'Void Linux', description: 'A lightweight, rolling-release distribution for advanced users.', link: 'https://voidlinux.org/', guide: 'https://docs.voidlinux.org/' },
+        { name: 'Clear Linux', description: 'An Intel-optimized distribution focused on performance.', link: 'https://clearlinux.org/', guide: 'https://docs.01.org/clearlinux/' },
+        { name: 'Lubuntu', description: 'A lightweight distribution based on Ubuntu, suitable for older hardware.', link: 'https://lubuntu.me/', guide: 'https://manual.lubuntu.me/' },
+        { name: 'Xubuntu', description: 'A lightweight and stable distribution based on Ubuntu, with the XFCE desktop.', link: 'https://xubuntu.org/', guide: 'https://docs.xubuntu.org/' },
+        { name: 'Peppermint OS', description: 'A lightweight distribution focused on speed and cloud integration.', link: 'https://peppermintos.com/', guide: 'https://peppermintos.com/guide/' },
+        { name: 'SparkyLinux', description: 'A lightweight distribution based on Debian, designed for speed.', link: 'https://sparkylinux.org/', guide: 'https://wiki.sparkylinux.org/' },
+        { name: 'AntiX', description: 'A lightweight distribution focused on speed and flexibility.', link: 'https://antixlinux.com/', guide: 'https://download.tuxfamily.org/antix/docs-antiX-19/FAQ/index.html' },
+        { name: 'Puppy Linux', description: 'A tiny distribution designed to be extremely fast and lightweight.', link: 'http://puppylinux.com/', guide: 'http://puppylinux.org/main/Overview%20and%20Getting%20Started.htm' },
+        { name: 'Alpine Linux', description: 'A security-focused, lightweight distribution.', link: 'https://alpinelinux.org/', guide: 'https://wiki.alpinelinux.org/wiki/Alpine_Linux:Overview' },
+        { name: 'Qubes OS', description: 'A security-oriented distribution designed for advanced users.', link: 'https://www.qubes-os.org/', guide: 'https://www.qubes-os.org/doc/' },
+        { name: 'Tails', description: 'A privacy-focused distribution designed for anonymity.', link: 'https://tails.boum.org/', guide: 'https://tails.boum.org/doc/' },
+        { name: 'Parrot OS', description: 'A security-focused distribution for penetration testing and forensics.', link: 'https://www.parrotsec.org/', guide: 'https://docs.parrotsec.org/' },
+        { name: 'Garuda Linux', description: 'A performance-focused distribution with a gaming flavor.', link: 'https://garudalinux.org/', guide: 'https://wiki.garudalinux.org/' },
+        { name: 'NixOS', description: 'A unique distribution with declarative system configuration.', link: 'https://nixos.org/', guide: 'https://nixos.org/manual/nixos/stable/' },
+        { name: 'EndeavourOS', description: 'An Arch-based distribution aimed at simplicity and user experience.', link: 'https://endeavouros.com/', guide: 'https://discovery.endeavouros.com/' },
+        { name: 'ArcoLinux', description: 'A flexible and customizable Arch-based distribution.', link: 'https://arcolinux.info/', guide: 'https://arcolinux.com/' },
+        { name: 'Trisquel', description: 'A fully free distribution based on Ubuntu, focused on accessibility.', link: 'https://trisquel.info/', guide: 'https://trisquel.info/en/wiki/documentation' },
+        { name: 'KDE Neon', description: 'A user-friendly distribution with the latest KDE software.', link: 'https://neon.kde.org/', guide: 'https://userbase.kde.org/Neon' },
+        { name: 'Knoppix', description: 'A bootable live system designed for system recovery and troubleshooting.', link: 'http://knopper.net/knoppix/index-en.html', guide: 'http://knopper.net/knoppix/knoppix704-en.html' },
+        { name: 'Sabayon', description: 'A user-friendly distribution based on Gentoo.', link: 'https://www.sabayon.org/', guide: 'https://wiki.sabayon.org/' },
+        { name: 'Calculate Linux', description: 'A rolling-release distribution based on Gentoo.', link: 'https://www.calculate-linux.org/', guide: 'https://wiki.calculate-linux.org/' },
+        { name: 'Rescatux', description: 'A Debian-based live CD for fixing issues with Linux and Windows.', link: 'https://www.supergrubdisk.org/rescatux/', guide: 'https://www.supergrubdisk.org/wiki/Rescatux/' },
+        { name: 'Clonezilla', description: 'A lightweight distribution for cloning and imaging systems.', link: 'https://clonezilla.org/', guide: 'https://clonezilla.org/clonezilla-live-doc.php' },
+        { name: 'Zentyal', description: 'A server distribution based on Ubuntu, aimed at small business servers.', link: 'https://zentyal.com/', guide: 'https://zentyal.com/documentation/' },
+        { name: 'NethServer', description: 'A server distribution based on CentOS, designed for small offices.', link: 'https://www.nethserver.org/', guide: 'https://docs.nethserver.org/en/latest/' },
+        { name: 'Rocky Linux', description: 'A community-driven, enterprise-grade distribution based on CentOS.', link: 'https://rockylinux.org/', guide: 'https://docs.rockylinux.org/' },
+        { name: 'AlmaLinux', description: 'A community-driven, enterprise-grade distribution, forked from CentOS.', link: 'https://almalinux.org/', guide: 'https://docs.almalinux.org/' },
+        { name: 'Oracle Linux', description: 'An enterprise-grade distribution from Oracle, compatible with RHEL.', link: 'https://www.oracle.com/linux/', guide: 'https://docs.oracle.com/en/operating-systems/oracle-linux/' }
+    ];
+
+    const experience = document.getElementById('experience').value;
+    const hardware = document.getElementById('hardware').value;
+    const purpose = document.getElementById('purpose').value;
+
+    const filteredDistros = distros.filter(distro => {
+        if (experience === 'beginner' && ['Linux Mint', 'Zorin OS', 'Ubuntu'].includes(distro.name)) return true;
+        if (experience === 'intermediate' && ['Manjaro', 'Pop!_OS', 'Fedora'].includes(distro.name)) return true;
+        if (experience === 'advanced' && ['Arch Linux', 'Debian', 'Gentoo'].includes(distro.name)) return true;
+        if (experience === 'expert' && ['Arch Linux', 'Slackware', 'Gentoo'].includes(distro.name)) return true;
+        if (hardware === 'low' && ['Lubuntu', 'Puppy Linux', 'AntiX'].includes(distro.name)) return true;
+        if (hardware === 'medium' && ['Xubuntu', 'Peppermint OS', 'MX Linux'].includes(distro.name)) return true;
+        if (hardware === 'high' && ['Fedora', 'Pop!_OS', 'Ubuntu'].includes(distro.name)) return true;
+        if (hardware === 'extreme' && ['Arch Linux', 'Debian', 'Gentoo'].includes(distro.name)) return true;
+        if (purpose === 'general' && ['Ubuntu', 'Linux Mint', 'Fedora'].includes(distro.name)) return true;
+        if (purpose === 'development' && ['Arch Linux', 'Ubuntu', 'Fedora'].includes(distro.name)) return true;
+        if (purpose === 'hacking' && ['Kali Linux', 'Parrot OS', 'Arch Linux'].includes(distro.name)) return true;
+        if (purpose === 'gaming' && ['Pop!_OS', 'Garuda Linux', 'Manjaro'].includes(distro.name)) return true;
+        if (purpose === 'server' && ['CentOS Stream', 'Debian', 'Ubuntu Server'].includes(distro.name)) return true;
+        if (purpose === 'minimal' && ['Alpine Linux', 'Void Linux', 'Arch Linux'].includes(distro.name)) return true;
+        return false;
+    });
+
+    const randomDistro = filteredDistros[Math.floor(Math.random() * filteredDistros.length)];
+
+    document.getElementById('result').innerHTML = 'We recommend: ' + randomDistro.name;
+    document.getElementById('description').innerHTML = randomDistro.description;
+    document.getElementById('guide-link').href = randomDistro.guide;
+    document.getElementById('guide-link').textContent = 'Visit the official guide for ' + randomDistro.name;
+    document.getElementById('guide-link').style.display = 'block';
+}
+</script>
+
+<style>
+.terminal-container {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #1e1e1e;
+    color: #00ff00;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 800px;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.terminal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    padding: 10px;
+    border-radius: 10px 10px 0 0;
+}
+
+.buttons {
+    display: flex;
+    gap: 5px;
+}
+
+.circle {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.red { background-color: #ff5f56; }
+.yellow { background-color: #ffbd2e; }
+.green { background-color: #27c93f; }
+
+.title {
+    font-size: 14px;
+    color: #ccc;
+    margin-left: 10px;
+}
+
+.terminal-body {
+    background-color: #000;
+    padding: 15px;
+    border-radius: 0 0 10px 10px;
+    overflow: auto;
+}
+
+.terminal-text {
+    margin: 0 0 10px;
+}
+
+.picker-section {
+    margin-top: 10px;
+}
+
+.terminal-label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.terminal-select {
+    background-color: #333;
+    color: #00ff00;
+    border: 1px solid #555;
+    padding: 5px;
+    font-family: 'Courier New', Courier, monospace;
+    width: 100%;
+}
+
+.btn-pick-distro {
+    background-color: #00ff00;
+    border: none;
+    padding: 10px 20px;
+    color: #000;
+    font-family: 'Courier New', Courier, monospace;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.btn-pick-distro:hover {
+    background-color: #00cc00;
+}
+
+.terminal-output {
+    margin-top: 20px;
+}
+
+.terminal-link {
+    color: #00ff00;
+    text-decoration: underline;
+}
+
+.terminal-link:hover {
+    color: #00cc00;
+}
+</style>

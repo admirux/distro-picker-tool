@@ -1,0 +1,253 @@
+<div class="terminal-container">
+    <div class="terminal-header">
+        <div class="buttons">
+            <span class="circle red"></span>
+            <span class="circle yellow"></span>
+            <span class="circle green"></span>
+        </div>
+        <span class="title">Terminal - Admirux Linux Distro Picker</span>
+    </div>
+    <div class="terminal-body">
+        <p class="terminal-text">Welcome to the Admirux Linux Distro Picker! Customize your preferences below to find the best Linux distribution for you:</p>
+
+        <div class="picker-section">
+            <label class="terminal-label" for="experience">Experience Level:</label>
+            <select id="experience" class="terminal-select" onchange="pickDistro()">
+                <option value="beginner">Beginner</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="advanced">Advanced</option>
+                <option value="expert">Expert</option>
+            </select>
+        </div>
+
+        <div class="picker-section">
+            <label class="terminal-label" for="hardware">Hardware Specifications:</label>
+            <select id="hardware" class="terminal-select" onchange="pickDistro()">
+                <option value="low">Low-end (1-2 GB RAM, Older CPU)</option>
+                <option value="medium">Mid-range (4-8 GB RAM, Dual-Core CPU)</option>
+                <option value="high">High-end (8+ GB RAM, Quad-Core+ CPU)</option>
+                <option value="extreme">Extreme (32+ GB RAM, Latest High-end CPU)</option>
+            </select>
+        </div>
+
+        <div class="picker-section">
+            <label class="terminal-label" for="purpose">Purpose:</label>
+            <select id="purpose" class="terminal-select" onchange="pickDistro()">
+                <option value="general">General Use</option>
+                <option value="development">Development</option>
+                <option value="hacking">Hacking/Networking</option>
+                <option value="gaming">Gaming</option>
+                <option value="server">Server</option>
+                <option value="minimal">Minimalist/Lightweight</option>
+                <option value="multimedia">Multimedia</option>
+                <option value="education">Education</option>
+                <option value="privacy">Privacy/Security</option>
+                <option value="enterprise">Enterprise/Corporate</option>
+            </select>
+        </div>
+
+        <!-- Loading animation -->
+        <div id="loading" style="display:none; margin:20px auto; text-align:center;">
+            <img src="https://i.gifer.com/YCZH.gif" alt="Loading..." width="50px">
+        </div>
+
+        <!-- Recommendation section with expanded breakdown -->
+        <div id="result-section" class="terminal-output">
+            <h3 id="result-heading"></h3>
+            <pre id="result"></pre>
+            <pre id="description"></pre>
+            <a id="guide-link" href="#" target="_blank" class="terminal-link"></a>
+        </div>
+
+        <!-- Feedback section -->
+        <div id="feedback-section" style="margin-top: 20px; display: none;">
+            <p>Did you find this recommendation helpful?</p>
+            <button class="feedback-button" onclick="provideFeedback(true)">👍 Yes</button>
+            <button class="feedback-button" onclick="provideFeedback(false)">👎 No</button>
+        </div>
+    </div>
+</div>
+
+<script>
+function showLoading() {
+    document.getElementById('loading').style.display = 'block';
+}
+
+function hideLoading() {
+    document.getElementById('loading').style.display = 'none';
+}
+
+function pickDistro() {
+    showLoading();
+
+    const distros = [
+        // BEGINNER
+        { name: 'Ubuntu', description: 'A popular, user-friendly Linux distribution suitable for beginners.', link: 'https://ubuntu.com/', experience: ['beginner'], hardware: ['low', 'medium'], purpose: ['general', 'multimedia'] },
+        { name: 'Linux Mint', description: 'A beginner-friendly distribution with a familiar Windows-like interface.', link: 'https://linuxmint.com/', experience: ['beginner'], hardware: ['medium'], purpose: ['general', 'multimedia'] },
+        { name: 'Zorin OS', description: 'Designed for users switching from Windows to Linux. Easy to use.', link: 'https://zorinos.com/', experience: ['beginner'], hardware: ['medium'], purpose: ['general', 'education'] },
+        { name: 'Pop!_OS', description: 'Great for beginners and optimized for hardware performance and gaming.', link: 'https://pop.system76.com/', experience: ['beginner'], hardware: ['high'], purpose: ['gaming', 'multimedia'] },
+        { name: 'Endless OS', description: 'Ideal for education and offline use. Preloaded with a variety of apps.', link: 'https://endlessos.com/', experience: ['beginner'], hardware: ['extreme'], purpose: ['education', 'general'] },
+        
+        // INTERMEDIATE
+        { name: 'Manjaro', description: 'An Arch-based distro that is beginner-friendly with modern desktop environments.', link: 'https://manjaro.org/', experience: ['intermediate'], hardware: ['medium'], purpose: ['general', 'development'] },
+        { name: 'Solus', description: 'Designed for developers and home users alike. Sleek and easy to use.', link: 'https://getsol.us/', experience: ['intermediate'], hardware: ['medium'], purpose: ['development'] },
+        { name: 'elementary OS', description: 'Beautiful, simple, and privacy-focused. Inspired by macOS.', link: 'https://elementary.io/', experience: ['intermediate'], hardware: ['high'], purpose: ['general', 'multimedia'] },
+        { name: 'Garuda Linux', description: 'Performance-oriented distro optimized for gaming and high-end use.', link: 'https://garudalinux.org/', experience: ['intermediate'], hardware: ['extreme'], purpose: ['gaming', 'development'] },
+        { name: 'Fedora Workstation', description: 'Favored by developers, Fedora is known for its cutting-edge software.', link: 'https://getfedora.org/', experience: ['intermediate'], hardware: ['high'], purpose: ['development'] },
+
+        // ADVANCED
+        { name: 'Arch Linux', description: 'A minimal, rolling-release distro for advanced users who want full control.', link: 'https://archlinux.org/', experience: ['advanced'], hardware: ['high'], purpose: ['customization', 'development'] },
+        { name: 'Debian', description: 'Stable and versatile. Great for both desktop use and server environments.', link: 'https://www.debian.org/', experience: ['advanced'], hardware: ['medium'], purpose: ['server', 'general'] },
+        { name: 'openSUSE Leap', description: 'A stable distribution used for development and server use. Good for system admins.', link: 'https://www.opensuse.org/', experience: ['advanced'], hardware: ['medium'], purpose: ['server', 'development'] },
+        { name: 'Gentoo', description: 'Highly customizable, advanced users can compile everything from source.', link: 'https://www.gentoo.org/', experience: ['advanced'], hardware: ['extreme'], purpose: ['customization', 'server'] },
+        { name: 'Slackware', description: 'One of the oldest Linux distros. Simple, minimal, and very stable.', link: 'http://www.slackware.com/', experience: ['advanced'], hardware: ['high'], purpose: ['server', 'customization'] },
+
+        // EXPERT
+        { name: 'Void Linux', description: 'Minimalist, independent distro focused on efficiency. Best for experts.', link: 'https://voidlinux.org/', experience: ['expert'], hardware: ['low'], purpose: ['minimal', 'customization'] },
+        { name: 'Qubes OS', description: 'A highly secure operating system using virtualization to isolate applications.', link: 'https://www.qubes-os.org/', experience: ['expert'], hardware: ['extreme'], purpose: ['privacy', 'security'] },
+        { name: 'Kali Linux', description: 'Specialized for penetration testing and security auditing.', link: 'https://www.kali.org/', experience: ['expert'], hardware: ['high'], purpose: ['hacking', 'privacy'] },
+        { name: 'Parrot OS', description: 'Privacy-focused and designed for security testing and forensics.', link: 'https://www.parrotsec.org/', experience: ['expert'], hardware: ['high'], purpose: ['privacy', 'hacking'] },
+        { name: 'Alpine Linux', description: 'Security-focused, lightweight distro. Best for minimal setups and high performance.', link: 'https://alpinelinux.org/', experience: ['expert'], hardware: ['extreme'], purpose: ['security', 'minimal'] },
+
+        // MORE DISTRIBUTIONS (COVERING ALL OTHER INPUT OPTIONS)
+        { name: 'Peppermint OS', description: 'Fast and lightweight with cloud app integration. Great for low-end hardware.', link: 'https://peppermintos.com/', experience: ['intermediate'], hardware: ['low'], purpose: ['minimal'] },
+        { name: 'Xubuntu', description: 'XFCE-based and lightweight. Works well on older machines with a simple UI.', link: 'https://xubuntu.org/', experience: ['intermediate'], hardware: ['low'], purpose: ['general', 'lightweight'] },
+        { name: 'MX Linux', description: 'Stable, mid-weight distribution based on Debian. Ideal for low-end hardware.', link: 'https://mxlinux.org/', experience: ['advanced'], hardware: ['low'], purpose: ['general', 'lightweight'] },
+        { name: 'CentOS Stream', description: 'An enterprise-grade distribution ideal for servers and corporate use.', link: 'https://www.centos.org/', experience: ['advanced'], hardware: ['high'], purpose: ['server', 'enterprise'] },
+        { name: 'Rocky Linux', description: 'A community-driven distribution, forked from CentOS. Great for enterprise servers.', link: 'https://rockylinux.org/', experience: ['advanced'], hardware: ['high'], purpose: ['enterprise', 'server'] },
+        { name: 'Pop!_OS (Extreme)', description: 'Great for high-end hardware with NVIDIA driver support. Perfect for gaming.', link: 'https://pop.system76.com/', experience: ['intermediate'], hardware: ['extreme'], purpose: ['gaming', 'multimedia'] },
+        { name: 'Rescatux', description: 'A Debian-based live CD for repairing Linux and Windows installations.', link: 'https://www.supergrubdisk.org/rescatux/', experience: ['expert'], hardware: ['low'], purpose: ['rescue', 'repair'] },
+        { name: 'Clonezilla', description: 'Live CD for system cloning, imaging, and backup. Useful for experts.', link: 'https://clonezilla.org/', experience: ['expert'], hardware: ['medium'], purpose: ['rescue', 'backup'] },
+        { name: 'AlmaLinux', description: 'A community-driven, enterprise-grade alternative to CentOS.', link: 'https://almalinux.org/', experience: ['advanced'], hardware: ['high'], purpose: ['enterprise', 'server'] },
+        { name: 'Oracle Linux', description: 'An enterprise-grade distro compatible with Red Hat Enterprise Linux (RHEL).', link: 'https://www.oracle.com/linux/', experience: ['advanced'], hardware: ['high'], purpose: ['enterprise', 'server'] }
+    ];
+
+    const experience = document.getElementById('experience').value;
+    const hardware = document.getElementById('hardware').value;
+    const purpose = document.getElementById('purpose').value;
+
+    const scoreDistro = (distro) => {
+        let score = 0;
+        if (distro.experience.includes(experience)) score += 3;
+        if (distro.hardware.includes(hardware)) score += 2;
+        if (distro.purpose.includes(purpose)) score += 5;
+        return score;
+    };
+
+    const sortedDistros = distros.map(distro => ({
+        ...distro,
+        score: scoreDistro(distro)
+    })).sort((a, b) => b.score - a.score);
+
+    hideLoading();
+
+    const topDistro = sortedDistros[0];
+
+    document.getElementById('result-heading').innerHTML = 'Admir recommends the following distribution:';
+    document.getElementById('result').innerHTML = `Admir recommends ${topDistro.name}: ${topDistro.description}`;
+    document.getElementById('description').innerHTML = `Start with ${topDistro.name}.`;
+    document.getElementById('guide-link').href = topDistro.link;
+    document.getElementById('guide-link').textContent = `Visit the official guide for ${topDistro.name}`;
+    document.getElementById('guide-link').style.display = 'block';
+}
+</script>
+
+<style>
+.terminal-container {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #1e1e1e;
+    color: #00ff00;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 800px;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.terminal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    padding: 10px;
+    border-radius: 10px 10px 0 0;
+}
+
+.buttons {
+    display: flex;
+    gap: 5px;
+}
+
+.circle {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.red { background-color: #ff5f56; }
+.yellow { background-color: #ffbd2e; }
+.green { background-color: #27c93f; }
+
+.title {
+    font-size: 14px;
+    color: #ccc;
+    margin-left: 10px;
+}
+
+.terminal-body {
+    background-color: #000;
+    padding: 15px;
+    border-radius: 0 0 10px 10px;
+    overflow: auto;
+}
+
+.terminal-text {
+    margin: 0 0 10px;
+}
+
+.picker-section {
+    margin-top: 10px;
+}
+
+.terminal-label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.terminal-select {
+    background-color: #333;
+    color: #00ff00;
+    border: 1px solid #555;
+    padding: 5px;
+    font-family: 'Courier New', Courier, monospace;
+    width: 100%;
+}
+
+.btn-pick-distro {
+    background-color: #00ff00;
+    border: none;
+    padding: 10px 20px;
+    color: #000;
+    font-family: 'Courier New', Courier, monospace;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.btn-pick-distro:hover {
+    background-color: #00cc00;
+}
+
+.terminal-output {
+    margin-top: 20px;
+}
+
+.terminal-link {
+    color: #00ff00;
+    text-decoration: underline;
+}
+
+.terminal-link:hover {
+    color: #00cc00;
+}
+</style>
